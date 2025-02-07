@@ -78,7 +78,7 @@ def collect_args():
     # network
     parser.add_argument(
         "--model",
-        default="BiomedCLIP",
+        default="CLIP",
         choices=[
             "BiomedCLIP",
             "PubMedCLIP",
@@ -108,8 +108,8 @@ def collect_args():
     parser.add_argument(
         "--val_strategy",
         type=str,
-        default="loss",
-        choices=["loss", "worst_auc"],
+        default="worst_auc",
+        choices=[ "worst_auc"],#loss
         help="strategy for selecting val model",
     )
 

@@ -68,7 +68,15 @@ class BaseTrainer(object):
     def init_optimizers(self):
         param_groups = optim_factory.param_groups_weight_decay(
             self.model, self.args.weight_decay)
-        self.optimizer = torch.optim.SGD(param_groups, lr=self.args.lr)
+        #self.optimizer = torch.optim.SGD(param_groups, lr=self.args.lr)
+        if self.args.optimizer=="adamw":
+            self.optimizer = torch.optim.AdamW(param_groups, lr=self.args.lr)
+        elif self.args.optimizer=="adam":
+            self.optimizer = torch.optim.Adam(param_groups, lr=self.args.lr)
+        elif self.args.optimizer=="sgd":
+            self.optimizer = torch.optim.SGD(param_groups, lr=self.args.lr)
+        else:
+            raise NotImplementedError
 
     def init(self):
         self.start_epoch = 0

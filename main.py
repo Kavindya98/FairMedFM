@@ -9,13 +9,14 @@ import torch.nn.functional as F
 from icecream import ic
 
 import parse_args
-from datasets.utils import get_dataset
+from datasets.utils import get_dataset, get_train_dataset
 from models.utils import get_model
 from trainers.utils import get_trainer
 from utils import basics
 from wrappers.utils import get_warpped_model
+import wandb
 
-os.environ["WANDB_DISABLED"] = "true"
+#os.environ["WANDB_DISABLED"] = "true"
 
 
 def create_exerpiment_setting(args):
@@ -77,13 +78,18 @@ if __name__ == "__main__":
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
 
-    train_data, train_dataloader, train_meta = get_dataset(args, split="train")
+    train_dataloader, val_dataloader, train_meta = get_train_dataset(args, split="train")
     test_data, test_dataloader, test_meta = get_dataset(args, split="test")
+
     model = get_model(args).to(args.device)
 
     # ic(train_data, train_dataloader, train_meta)
     # ic(test_data, test_dataloader, test_meta)
     # ic(model)
+    wandb_project = "_".join([args.dataset, args.model])
+    wandb_name = "_".join([args.task, args.usage,args.method, f"sa{args.sensitive_name}", f"seed{args.random_seed}", f"bsize{args.batch_size}", f"lr{args.lr}", f"opt{args.optimizer}", f"min_lr{args.min_lr}", f"fix_lr{args.fixed_lr}",f"wd{args.weight_decay}",f"warm{args.warmup_epochs}",f"total{args.total_epochs}",f"cls_bal{args.cls_balance}"]) 
+
+    wandb.init(project=wandb_project, name=wandb_name, config=args)
 
     if args.task == "cls":
         model = get_warpped_model(args, model).to(args.device)
@@ -102,7 +108,7 @@ if __name__ == "__main__":
     elif args.usage == "clip-adapt":
         logger.info("CLIP-Adaptor performance:")
         trainer.init_optimizers()
-        trainer.train(train_dataloader)
+        trainer.train(train_dataloader, val_dataloader)
         trainer.evaluate(test_dataloader, save_path=os.path.join(
             args.save_folder, "clip_adaptor_final"))
         exit(0)
@@ -110,7 +116,7 @@ if __name__ == "__main__":
     elif args.usage == "lp":
         logger.info("Linear probing performance:")
         trainer.init_optimizers()
-        trainer.train(train_dataloader)
+        trainer.train(train_dataloader, val_dataloader)
         trainer.evaluate(test_dataloader, save_path=os.path.join(
             args.save_folder, "lp_final"))
         exit(0)

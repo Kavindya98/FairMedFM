@@ -1,10 +1,10 @@
 {
-    "train_meta_path": "./data/CXP/split/new_train.csv",
-    "test_sex_meta_path": "./data/CXP/split/new_test.csv",
+    "train_meta_path": "/home/kavindya/data/Model/FairMedFM/CheXpert-v1.0/new_train.csv",
+    "test_sex_meta_path": "/home/kavindya/data/Model/FairMedFM/CheXpert-v1.0/new_test.csv",
     "test_age_meta_path": "./data/CXP/split/test_age.csv",
     "test_race_meta_path": "./data/CXP/split/test_race.csv",
-    "image_train_path": "../DataSets/",
-    "image_test_path": "../DataSets/",
+    "image_train_path": "/media/SSD2/Dataset/CheXpert",
+    "image_test_path": "/media/SSD2/Dataset/CheXpert",
     "text_template": "a chest X-ray of a {}",
     "class_names": ["diseased", "normal"]
 }

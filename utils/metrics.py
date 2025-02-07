@@ -5,6 +5,7 @@ import sklearn.metrics as sklm
 import torch
 import torch.nn as nn
 from sklearn.metrics import accuracy_score, confusion_matrix, roc_auc_score
+import wandb 
 
 
 # adapted from https://github.com/LalehSeyyed/Underdiagnosis_NatMed/blob/main/CXP/classification/predictions.py
@@ -151,6 +152,21 @@ def organize_results(overall_metrics, subgroup_metrics):
     }
 
     return result
+
+def log_metrics_to_wandb(epoch, train_metrics, panel="train"):
+    """
+    Logs training and validation metrics to Weights & Biases (wandb) under different panels.
+    """
+
+    # Prefix training metrics with 'train/' and validation metrics with 'val/'
+    formatted_metrics = {f"{panel}/{k}": v for k, v in train_metrics.items()}
+    
+
+    # Add epoch number for proper tracking
+    formatted_metrics["epoch"] = epoch
+
+    # Log metrics to wandb
+    wandb.log(formatted_metrics, step=epoch)
 
 
 def evaluate_seg(dsc_list, sensitive_list):

@@ -14,7 +14,7 @@ from albumentations.core.composition import Compose
 from einops import rearrange
 from icecream import ic
 from matplotlib import pyplot as plt
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, random_split
 
 import datasets
 
@@ -166,6 +166,84 @@ def get_dataset(args, split):
         data_loader.class_weights_y = data.class_weights_y
 
     return data, data_loader, meta
+
+def get_train_dataset(args, split="train"):
+    data_setting = args.data_setting
+
+    transform = get_transform(args, split, augment=args.augment)
+
+    g = torch.Generator()
+    g.manual_seed(args.random_seed)
+
+    def seed_worker(worker_id):
+        np.random.seed(args.random_seed)
+        random.seed(args.random_seed)
+
+    # image_path = data_setting["image_feature_path"]
+    # TODO: Add segmentation meta path
+    meta = pd.read_csv(data_setting[f"{split}_meta_path"])
+
+    if args.task == "cls":
+        dataset_name = getattr(datasets, args.dataset)
+        image_path = data_setting[f"image_{split}_path"]
+        data = dataset_name(meta, args.sensitive_name,
+                            transform, path_to_images=image_path)
+
+    elif args.task == "seg":
+        # TODO
+        dataset = Dataset2D(
+            basepath=data_setting["data_path"],
+            pos_class=data_setting["pos_class"],
+            transform=transform)
+        data = DataEngine2D(
+            dataset=dataset,
+            img_size=(args.img_size, args.img_size)
+        )
+    else:
+        raise NotImplementedError()
+
+    print("loaded dataset ", args.dataset)
+
+    train_size = int(0.8 * len(data))  # 80% for training
+    val_size = len(data) - train_size
+    train_dataset, val_dataset = random_split(data, [train_size, val_size])
+
+
+    if split == "train":
+        sampler = None
+
+        data_loader_train = torch.utils.data.DataLoader(
+            train_dataset,
+            batch_size=args.batch_size,
+            sampler=sampler,
+            shuffle=(args.method != "resampling"),
+            num_workers=6,
+            worker_init_fn=seed_worker,
+            generator=g,
+            pin_memory=True,
+        )
+    
+    data_loader_val = torch.utils.data.DataLoader(
+            val_dataset,
+            batch_size=args.batch_size,
+            sampler=sampler,
+            shuffle=False,
+            num_workers=6,
+            worker_init_fn=seed_worker,
+            generator=g,
+            pin_memory=True,
+        )
+
+    
+   
+    if args.cls_balance and hasattr(data, "class_weights_sa"):
+        data_loader_train.class_weights_sa = train_dataset.dataset.class_weights_sa
+        data_loader_val.class_weights_sa = val_dataset.dataset.class_weights_sa
+    if args.cls_balance and hasattr(data, "class_weights_y"):
+        data_loader_train.class_weights_y = train_dataset.dataset.class_weights_y
+        data_loader_val.class_weights_y = val_dataset.dataset.class_weights_y
+
+    return data_loader_train, data_loader_val, meta
 
 
 class Dataset2D(Dataset):
