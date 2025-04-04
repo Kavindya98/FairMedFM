@@ -1,11 +1,13 @@
 {
-    "train_meta_path": "./data/GF3300/split/train.csv",
-    "test_sex_meta_path": "./data/GF3300/split//test.csv",
-    "test_age_meta_path": "./data/GF3300/split/test_age.csv",
-    "test_race_meta_path": "./data/GF3300/split/test_race.csv",
-    "test_language_meta_path": "./data/GF3300/split/test_language.csv",
-    "image_train_path": "./data/GF3300/data/",
-    "image_test_path": "./data/GF3300/data/",
+    "train_meta_path": "/media/SSD2/Dataset/GF3300/train.csv",
+    "test_sex_meta_path": "/media/SSD2/Dataset/GF3300//test.csv",
+    "test_age_meta_path": "/media/SSD2/Dataset/GF3300/test_age.csv",
+    "test_race_meta_path": "/media/SSD2/Dataset/GF3300/test_race.csv",
+    "test_language_meta_path": "/media/SSD2/Dataset/GF3300/test_language.csv",
+    "image_train_path": "/media/SSD2/Dataset/GF3300",
+    "image_test_path": "/media/SSD2/Dataset/GF3300",
     "text_template": "a photo of a {}",
-    "class_names": ["normal", "glaucoma"]
+    "att_template": "a photo of a {}",
+    "class_names": ["normal", "glaucoma"],
+    "attribute_names": ["male", "female"]
 }

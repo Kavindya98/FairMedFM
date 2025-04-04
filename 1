@@ -1,0 +1,563 @@
+nohup: ignoring input
+Running CXP for model: PubMedCLIP
+INFO:albumentations.check_version:A new version of Albumentations is available: 2.0.5 (you have 1.4.9). Upgrade using: pip install --upgrade albumentations
+/home/kavindya/miniconda3/envs/fairmedfm/lib/python3.8/site-packages/fairscale/experimental/nn/offload.py:19: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  return torch.cuda.amp.custom_fwd(orig_func)  # type: ignore
+/home/kavindya/miniconda3/envs/fairmedfm/lib/python3.8/site-packages/fairscale/experimental/nn/offload.py:30: FutureWarning: `torch.cuda.amp.custom_bwd(args...)` is deprecated. Please use `torch.amp.custom_bwd(args..., device_type='cuda')` instead.
+  return torch.cuda.amp.custom_bwd(orig_func)  # type: ignore
+25-03-16 21:27:19.891 - INFO: Using following arguments for training.
+INFO:train:Using following arguments for training.
+25-03-16 21:27:19.892 - INFO: Namespace(augment=False, batch_size=1024, blr=0.0001, cls_balance=True, context_length=77, cuda=True, data_setting={'train_meta_path': '/home/kavindya/data/Model/FairMedFM/CheXpert-v1.0/new_train.csv', 'test_sex_meta_path': '/home/kavindya/data/Model/FairMedFM/CheXpert-v1.0/new_test.csv', 'test_age_meta_path': './data/CXP/split/test_age.csv', 'test_race_meta_path': './data/CXP/split/test_race.csv', 'image_train_path': '/media/SSD2/Dataset/CheXpert', 'image_test_path': '/media/SSD2/Dataset/CheXpert', 'text_template': 'a chest X-ray of a {}', 'att_template': 'a chest X-ray of a {}', 'class_names': ['diseased', 'normal'], 'attribute_names': ['male', 'female'], 'augment': False, 'test_meta_path': '/home/kavindya/data/Model/FairMedFM/CheXpert-v1.0/new_test.csv'}, dataset='CXP', device=device(type='cuda'), early_stopping=1, exp_path='./output', experiment_name='test', fixed_lr=False, hash_id='', if_wandb=False, img_size=256, is_3d=False, log_freq=50, lr=0.0001, lr_decay_period=10, lr_decay_rate=0.1, method='unsup', min_lr=1e-05, model='PubMedCLIP', model_setting={'backbone': 'ViT-B/32', 'pretrained_path': './pretrained/PubMedCLIP/PubMedCLIP_ViT32.pth'}, optimizer='adamw', pos_class=None, prompt=None, random_seed=0, resume_path='./output/cls/unsup-clip-zs/unsup/CXP/PubMedCLIP/Sex/seed0', sam_ckpt_path=None, save_folder='./output/cls/unsup-clip-zs/unsup/CXP/PubMedCLIP/Sex/seed0', sensitive_name='Sex', task='cls', test_mode=False, total_epochs=100, usage='unsup-clip-zs', val_strategy='worst_auc', wandb_name='baseline', warmup_epochs=5, weight_decay=0.0001)
+INFO:train:Namespace(augment=False, batch_size=1024, blr=0.0001, cls_balance=True, context_length=77, cuda=True, data_setting={'train_meta_path': '/home/kavindya/data/Model/FairMedFM/CheXpert-v1.0/new_train.csv', 'test_sex_meta_path': '/home/kavindya/data/Model/FairMedFM/CheXpert-v1.0/new_test.csv', 'test_age_meta_path': './data/CXP/split/test_age.csv', 'test_race_meta_path': './data/CXP/split/test_race.csv', 'image_train_path': '/media/SSD2/Dataset/CheXpert', 'image_test_path': '/media/SSD2/Dataset/CheXpert', 'text_template': 'a chest X-ray of a {}', 'att_template': 'a chest X-ray of a {}', 'class_names': ['diseased', 'normal'], 'attribute_names': ['male', 'female'], 'augment': False, 'test_meta_path': '/home/kavindya/data/Model/FairMedFM/CheXpert-v1.0/new_test.csv'}, dataset='CXP', device=device(type='cuda'), early_stopping=1, exp_path='./output', experiment_name='test', fixed_lr=False, hash_id='', if_wandb=False, img_size=256, is_3d=False, log_freq=50, lr=0.0001, lr_decay_period=10, lr_decay_rate=0.1, method='unsup', min_lr=1e-05, model='PubMedCLIP', model_setting={'backbone': 'ViT-B/32', 'pretrained_path': './pretrained/PubMedCLIP/PubMedCLIP_ViT32.pth'}, optimizer='adamw', pos_class=None, prompt=None, random_seed=0, resume_path='./output/cls/unsup-clip-zs/unsup/CXP/PubMedCLIP/Sex/seed0', sam_ckpt_path=None, save_folder='./output/cls/unsup-clip-zs/unsup/CXP/PubMedCLIP/Sex/seed0', sensitive_name='Sex', task='cls', test_mode=False, total_epochs=100, usage='unsup-clip-zs', val_strategy='worst_auc', wandb_name='baseline', warmup_epochs=5, weight_decay=0.0001)
+/media/SSD2/kavindya/Model/FairMedFM/models/pubmed_clip.py:37: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  self.model.load_state_dict(torch.load(path, map_location="cpu")["state_dict"])
+25-03-16 21:27:26.141 - INFO: Unsupervised CLIP Zero-shot performance:
+INFO:train:Unsupervised CLIP Zero-shot performance:
+loaded dataset  CXP
+loaded dataset  CXP
+25-03-16 21:33:16.683 - INFO: Top-20 Samples Per Group #########
+INFO:train:Top-20 Samples Per Group #########
+25-03-16 21:33:16.684 - INFO: Target Accuracy from Report: 0.56%
+INFO:train:Target Accuracy from Report: 0.56%
+25-03-16 21:33:16.684 - INFO: Sensitive Accuracy from Report: 0.51%
+INFO:train:Sensitive Accuracy from Report: 0.51%
+25-03-16 21:33:16.684 - INFO: 
+
+INFO:train:
+
+25-03-16 21:33:16.684 - INFO: Target AUC from Report: 0.88
+INFO:train:Target AUC from Report: 0.88
+25-03-16 21:33:16.684 - INFO: Sensitive AUC from Report: 0.47
+INFO:train:Sensitive AUC from Report: 0.47
+25-03-16 21:33:16.684 - INFO: 
+
+INFO:train:
+
+25-03-16 21:33:16.684 - INFO: Target ECE from Report: 0.28
+INFO:train:Target ECE from Report: 0.28
+25-03-16 21:33:16.684 - INFO: Sensitive ECE from Report: 0.16
+INFO:train:Sensitive ECE from Report: 0.16
+25-03-16 21:33:16.684 - INFO: 
+
+INFO:train:
+
+25-03-16 21:33:16.685 - INFO: 
+Overall Class Accuracy: 56.25%
+INFO:train:
+Overall Class Accuracy: 56.25%
+25-03-16 21:33:16.685 - INFO: 
+Overall Spurious Accuracy: 51.25%
+INFO:train:
+Overall Spurious Accuracy: 51.25%
+25-03-16 21:33:16.685 - INFO: 
+Group (0, 0):
+INFO:train:
+Group (0, 0):
+25-03-16 21:33:16.685 - INFO:   - Group Accuracy: 90.00%
+INFO:train:  - Group Accuracy: 90.00%
+25-03-16 21:33:16.685 - INFO:   - Correctly Predicted Samples: 18/20
+INFO:train:  - Correctly Predicted Samples: 18/20
+25-03-16 21:33:16.685 - INFO: 
+Group (1, 1):
+INFO:train:
+Group (1, 1):
+25-03-16 21:33:16.685 - INFO:   - Group Accuracy: 0.00%
+INFO:train:  - Group Accuracy: 0.00%
+25-03-16 21:33:16.685 - INFO:   - Correctly Predicted Samples: 0/20
+INFO:train:  - Correctly Predicted Samples: 0/20
+25-03-16 21:33:16.685 - INFO: 
+Group (0, 1):
+INFO:train:
+Group (0, 1):
+25-03-16 21:33:16.685 - INFO:   - Group Accuracy: 25.00%
+INFO:train:  - Group Accuracy: 25.00%
+25-03-16 21:33:16.685 - INFO:   - Correctly Predicted Samples: 5/20
+INFO:train:  - Correctly Predicted Samples: 5/20
+25-03-16 21:33:16.685 - INFO: 
+Group (1, 0):
+INFO:train:
+Group (1, 0):
+25-03-16 21:33:16.685 - INFO:   - Group Accuracy: 20.00%
+INFO:train:  - Group Accuracy: 20.00%
+25-03-16 21:33:16.685 - INFO:   - Correctly Predicted Samples: 4/20
+INFO:train:  - Correctly Predicted Samples: 4/20
+25-03-16 21:33:16.834 - INFO: Top-30 Samples Per Group #########
+INFO:train:Top-30 Samples Per Group #########
+25-03-16 21:33:16.834 - INFO: Target Accuracy from Report: 0.54%
+INFO:train:Target Accuracy from Report: 0.54%
+25-03-16 21:33:16.834 - INFO: Sensitive Accuracy from Report: 0.50%
+INFO:train:Sensitive Accuracy from Report: 0.50%
+25-03-16 21:33:16.834 - INFO: 
+
+INFO:train:
+
+25-03-16 21:33:16.834 - INFO: Target AUC from Report: 0.88
+INFO:train:Target AUC from Report: 0.88
+25-03-16 21:33:16.834 - INFO: Sensitive AUC from Report: 0.44
+INFO:train:Sensitive AUC from Report: 0.44
+25-03-16 21:33:16.834 - INFO: 
+
+INFO:train:
+
+25-03-16 21:33:16.834 - INFO: Target ECE from Report: 0.28
+INFO:train:Target ECE from Report: 0.28
+25-03-16 21:33:16.834 - INFO: Sensitive ECE from Report: 0.15
+INFO:train:Sensitive ECE from Report: 0.15
+25-03-16 21:33:16.834 - INFO: 
+
+INFO:train:
+
+25-03-16 21:33:16.834 - INFO: 
+Overall Class Accuracy: 54.17%
+INFO:train:
+Overall Class Accuracy: 54.17%
+25-03-16 21:33:16.834 - INFO: 
+Overall Spurious Accuracy: 50.00%
+INFO:train:
+Overall Spurious Accuracy: 50.00%
+25-03-16 21:33:16.834 - INFO: 
+Group (0, 0):
+INFO:train:
+Group (0, 0):
+25-03-16 21:33:16.834 - INFO:   - Group Accuracy: 86.67%
+INFO:train:  - Group Accuracy: 86.67%
+25-03-16 21:33:16.834 - INFO:   - Correctly Predicted Samples: 26/30
+INFO:train:  - Correctly Predicted Samples: 26/30
+25-03-16 21:33:16.835 - INFO: 
+Group (1, 1):
+INFO:train:
+Group (1, 1):
+25-03-16 21:33:16.835 - INFO:   - Group Accuracy: 0.00%
+INFO:train:  - Group Accuracy: 0.00%
+25-03-16 21:33:16.835 - INFO:   - Correctly Predicted Samples: 0/30
+INFO:train:  - Correctly Predicted Samples: 0/30
+25-03-16 21:33:16.835 - INFO: 
+Group (0, 1):
+INFO:train:
+Group (0, 1):
+25-03-16 21:33:16.835 - INFO:   - Group Accuracy: 16.67%
+INFO:train:  - Group Accuracy: 16.67%
+25-03-16 21:33:16.835 - INFO:   - Correctly Predicted Samples: 5/30
+INFO:train:  - Correctly Predicted Samples: 5/30
+25-03-16 21:33:16.835 - INFO: 
+Group (1, 0):
+INFO:train:
+Group (1, 0):
+25-03-16 21:33:16.835 - INFO:   - Group Accuracy: 13.33%
+INFO:train:  - Group Accuracy: 13.33%
+25-03-16 21:33:16.835 - INFO:   - Correctly Predicted Samples: 4/30
+INFO:train:  - Correctly Predicted Samples: 4/30
+25-03-16 21:33:16.969 - INFO: Top-40 Samples Per Group #########
+INFO:train:Top-40 Samples Per Group #########
+25-03-16 21:33:16.969 - INFO: Target Accuracy from Report: 0.54%
+INFO:train:Target Accuracy from Report: 0.54%
+25-03-16 21:33:16.969 - INFO: Sensitive Accuracy from Report: 0.51%
+INFO:train:Sensitive Accuracy from Report: 0.51%
+25-03-16 21:33:16.970 - INFO: 
+
+INFO:train:
+
+25-03-16 21:33:16.970 - INFO: Target AUC from Report: 0.87
+INFO:train:Target AUC from Report: 0.87
+25-03-16 21:33:16.970 - INFO: Sensitive AUC from Report: 0.45
+INFO:train:Sensitive AUC from Report: 0.45
+25-03-16 21:33:16.970 - INFO: 
+
+INFO:train:
+
+25-03-16 21:33:16.970 - INFO: Target ECE from Report: 0.25
+INFO:train:Target ECE from Report: 0.25
+25-03-16 21:33:16.970 - INFO: Sensitive ECE from Report: 0.13
+INFO:train:Sensitive ECE from Report: 0.13
+25-03-16 21:33:16.970 - INFO: 
+
+INFO:train:
+
+25-03-16 21:33:16.970 - INFO: 
+Overall Class Accuracy: 54.37%
+INFO:train:
+Overall Class Accuracy: 54.37%
+25-03-16 21:33:16.970 - INFO: 
+Overall Spurious Accuracy: 51.25%
+INFO:train:
+Overall Spurious Accuracy: 51.25%
+25-03-16 21:33:16.970 - INFO: 
+Group (0, 0):
+INFO:train:
+Group (0, 0):
+25-03-16 21:33:16.970 - INFO:   - Group Accuracy: 90.00%
+INFO:train:  - Group Accuracy: 90.00%
+25-03-16 21:33:16.970 - INFO:   - Correctly Predicted Samples: 36/40
+INFO:train:  - Correctly Predicted Samples: 36/40
+25-03-16 21:33:16.970 - INFO: 
+Group (1, 1):
+INFO:train:
+Group (1, 1):
+25-03-16 21:33:16.970 - INFO:   - Group Accuracy: 0.00%
+INFO:train:  - Group Accuracy: 0.00%
+25-03-16 21:33:16.970 - INFO:   - Correctly Predicted Samples: 0/40
+INFO:train:  - Correctly Predicted Samples: 0/40
+25-03-16 21:33:16.971 - INFO: 
+Group (0, 1):
+INFO:train:
+Group (0, 1):
+25-03-16 21:33:16.971 - INFO:   - Group Accuracy: 12.50%
+INFO:train:  - Group Accuracy: 12.50%
+25-03-16 21:33:16.971 - INFO:   - Correctly Predicted Samples: 5/40
+INFO:train:  - Correctly Predicted Samples: 5/40
+25-03-16 21:33:16.971 - INFO: 
+Group (1, 0):
+INFO:train:
+Group (1, 0):
+25-03-16 21:33:16.971 - INFO:   - Group Accuracy: 12.50%
+INFO:train:  - Group Accuracy: 12.50%
+25-03-16 21:33:16.971 - INFO:   - Correctly Predicted Samples: 5/40
+INFO:train:  - Correctly Predicted Samples: 5/40
+25-03-16 21:33:17.105 - INFO: Top-50 Samples Per Group #########
+INFO:train:Top-50 Samples Per Group #########
+25-03-16 21:33:17.105 - INFO: Target Accuracy from Report: 0.55%
+INFO:train:Target Accuracy from Report: 0.55%
+25-03-16 21:33:17.105 - INFO: Sensitive Accuracy from Report: 0.51%
+INFO:train:Sensitive Accuracy from Report: 0.51%
+25-03-16 21:33:17.105 - INFO: 
+
+INFO:train:
+
+25-03-16 21:33:17.106 - INFO: Target AUC from Report: 0.88
+INFO:train:Target AUC from Report: 0.88
+25-03-16 21:33:17.106 - INFO: Sensitive AUC from Report: 0.45
+INFO:train:Sensitive AUC from Report: 0.45
+25-03-16 21:33:17.106 - INFO: 
+
+INFO:train:
+
+25-03-16 21:33:17.106 - INFO: Target ECE from Report: 0.25
+INFO:train:Target ECE from Report: 0.25
+25-03-16 21:33:17.106 - INFO: Sensitive ECE from Report: 0.12
+INFO:train:Sensitive ECE from Report: 0.12
+25-03-16 21:33:17.106 - INFO: 
+
+INFO:train:
+
+25-03-16 21:33:17.106 - INFO: 
+Overall Class Accuracy: 55.00%
+INFO:train:
+Overall Class Accuracy: 55.00%
+25-03-16 21:33:17.106 - INFO: 
+Overall Spurious Accuracy: 51.00%
+INFO:train:
+Overall Spurious Accuracy: 51.00%
+25-03-16 21:33:17.106 - INFO: 
+Group (0, 0):
+INFO:train:
+Group (0, 0):
+25-03-16 21:33:17.106 - INFO:   - Group Accuracy: 92.00%
+INFO:train:  - Group Accuracy: 92.00%
+25-03-16 21:33:17.106 - INFO:   - Correctly Predicted Samples: 46/50
+INFO:train:  - Correctly Predicted Samples: 46/50
+25-03-16 21:33:17.106 - INFO: 
+Group (1, 1):
+INFO:train:
+Group (1, 1):
+25-03-16 21:33:17.106 - INFO:   - Group Accuracy: 0.00%
+INFO:train:  - Group Accuracy: 0.00%
+25-03-16 21:33:17.106 - INFO:   - Correctly Predicted Samples: 0/50
+INFO:train:  - Correctly Predicted Samples: 0/50
+25-03-16 21:33:17.106 - INFO: 
+Group (0, 1):
+INFO:train:
+Group (0, 1):
+25-03-16 21:33:17.106 - INFO:   - Group Accuracy: 10.00%
+INFO:train:  - Group Accuracy: 10.00%
+25-03-16 21:33:17.106 - INFO:   - Correctly Predicted Samples: 5/50
+INFO:train:  - Correctly Predicted Samples: 5/50
+25-03-16 21:33:17.106 - INFO: 
+Group (1, 0):
+INFO:train:
+Group (1, 0):
+25-03-16 21:33:17.106 - INFO:   - Group Accuracy: 12.00%
+INFO:train:  - Group Accuracy: 12.00%
+25-03-16 21:33:17.107 - INFO:   - Correctly Predicted Samples: 6/50
+INFO:train:  - Correctly Predicted Samples: 6/50
+Running CXP for model: BiomedCLIP
+INFO:albumentations.check_version:A new version of Albumentations is available: 2.0.5 (you have 1.4.9). Upgrade using: pip install --upgrade albumentations
+/home/kavindya/miniconda3/envs/fairmedfm/lib/python3.8/site-packages/fairscale/experimental/nn/offload.py:19: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  return torch.cuda.amp.custom_fwd(orig_func)  # type: ignore
+/home/kavindya/miniconda3/envs/fairmedfm/lib/python3.8/site-packages/fairscale/experimental/nn/offload.py:30: FutureWarning: `torch.cuda.amp.custom_bwd(args...)` is deprecated. Please use `torch.amp.custom_bwd(args..., device_type='cuda')` instead.
+  return torch.cuda.amp.custom_bwd(orig_func)  # type: ignore
+25-03-16 21:33:35.674 - INFO: Using following arguments for training.
+INFO:train:Using following arguments for training.
+25-03-16 21:33:35.674 - INFO: Namespace(augment=False, batch_size=1024, blr=0.0001, cls_balance=True, context_length=77, cuda=True, data_setting={'train_meta_path': '/home/kavindya/data/Model/FairMedFM/CheXpert-v1.0/new_train.csv', 'test_sex_meta_path': '/home/kavindya/data/Model/FairMedFM/CheXpert-v1.0/new_test.csv', 'test_age_meta_path': './data/CXP/split/test_age.csv', 'test_race_meta_path': './data/CXP/split/test_race.csv', 'image_train_path': '/media/SSD2/Dataset/CheXpert', 'image_test_path': '/media/SSD2/Dataset/CheXpert', 'text_template': 'a chest X-ray of a {}', 'att_template': 'a chest X-ray of a {}', 'class_names': ['diseased', 'normal'], 'attribute_names': ['male', 'female'], 'augment': False, 'test_meta_path': '/home/kavindya/data/Model/FairMedFM/CheXpert-v1.0/new_test.csv'}, dataset='CXP', device=device(type='cuda'), early_stopping=1, exp_path='./output', experiment_name='test', fixed_lr=False, hash_id='', if_wandb=False, img_size=256, is_3d=False, log_freq=50, lr=0.0001, lr_decay_period=10, lr_decay_rate=0.1, method='unsup', min_lr=1e-05, model='BiomedCLIP', model_setting={'lora_targets': ['qkv']}, optimizer='adamw', pos_class=None, prompt=None, random_seed=0, resume_path='./output/cls/unsup-clip-zs/unsup/CXP/BiomedCLIP/Sex/seed0', sam_ckpt_path=None, save_folder='./output/cls/unsup-clip-zs/unsup/CXP/BiomedCLIP/Sex/seed0', sensitive_name='Sex', task='cls', test_mode=False, total_epochs=100, usage='unsup-clip-zs', val_strategy='worst_auc', wandb_name='baseline', warmup_epochs=5, weight_decay=0.0001)
+INFO:train:Namespace(augment=False, batch_size=1024, blr=0.0001, cls_balance=True, context_length=77, cuda=True, data_setting={'train_meta_path': '/home/kavindya/data/Model/FairMedFM/CheXpert-v1.0/new_train.csv', 'test_sex_meta_path': '/home/kavindya/data/Model/FairMedFM/CheXpert-v1.0/new_test.csv', 'test_age_meta_path': './data/CXP/split/test_age.csv', 'test_race_meta_path': './data/CXP/split/test_race.csv', 'image_train_path': '/media/SSD2/Dataset/CheXpert', 'image_test_path': '/media/SSD2/Dataset/CheXpert', 'text_template': 'a chest X-ray of a {}', 'att_template': 'a chest X-ray of a {}', 'class_names': ['diseased', 'normal'], 'attribute_names': ['male', 'female'], 'augment': False, 'test_meta_path': '/home/kavindya/data/Model/FairMedFM/CheXpert-v1.0/new_test.csv'}, dataset='CXP', device=device(type='cuda'), early_stopping=1, exp_path='./output', experiment_name='test', fixed_lr=False, hash_id='', if_wandb=False, img_size=256, is_3d=False, log_freq=50, lr=0.0001, lr_decay_period=10, lr_decay_rate=0.1, method='unsup', min_lr=1e-05, model='BiomedCLIP', model_setting={'lora_targets': ['qkv']}, optimizer='adamw', pos_class=None, prompt=None, random_seed=0, resume_path='./output/cls/unsup-clip-zs/unsup/CXP/BiomedCLIP/Sex/seed0', sam_ckpt_path=None, save_folder='./output/cls/unsup-clip-zs/unsup/CXP/BiomedCLIP/Sex/seed0', sensitive_name='Sex', task='cls', test_mode=False, total_epochs=100, usage='unsup-clip-zs', val_strategy='worst_auc', wandb_name='baseline', warmup_epochs=5, weight_decay=0.0001)
+INFO:root:Loaded hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224 model config.
+INFO:root:Loading pretrained hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224 weights (/home/kavindya/.cache/huggingface/hub/models--microsoft--BiomedCLIP-PubMedBERT_256-vit_base_patch16_224/snapshots/9f341de24bfb00180f1b847274256e9b65a3a32e/open_clip_pytorch_model.bin).
+/home/kavindya/miniconda3/envs/fairmedfm/lib/python3.8/site-packages/open_clip/factory.py:128: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(checkpoint_path, map_location=map_location)
+25-03-16 21:33:44.628 - INFO: Unsupervised CLIP Zero-shot performance:
+INFO:train:Unsupervised CLIP Zero-shot performance:
+loaded dataset  CXP
+loaded dataset  CXP
+25-03-16 21:55:16.776 - INFO: Top-20 Samples Per Group #########
+INFO:train:Top-20 Samples Per Group #########
+25-03-16 21:55:16.776 - INFO: Target Accuracy from Report: 0.64%
+INFO:train:Target Accuracy from Report: 0.64%
+25-03-16 21:55:16.777 - INFO: Sensitive Accuracy from Report: 0.61%
+INFO:train:Sensitive Accuracy from Report: 0.61%
+25-03-16 21:55:16.777 - INFO: 
+
+INFO:train:
+
+25-03-16 21:55:16.777 - INFO: Target AUC from Report: 0.68
+INFO:train:Target AUC from Report: 0.68
+25-03-16 21:55:16.777 - INFO: Sensitive AUC from Report: 0.77
+INFO:train:Sensitive AUC from Report: 0.77
+25-03-16 21:55:16.777 - INFO: 
+
+INFO:train:
+
+25-03-16 21:55:16.777 - INFO: Target ECE from Report: 0.36
+INFO:train:Target ECE from Report: 0.36
+25-03-16 21:55:16.777 - INFO: Sensitive ECE from Report: 0.35
+INFO:train:Sensitive ECE from Report: 0.35
+25-03-16 21:55:16.777 - INFO: 
+
+INFO:train:
+
+25-03-16 21:55:16.777 - INFO: 
+Overall Class Accuracy: 63.75%
+INFO:train:
+Overall Class Accuracy: 63.75%
+25-03-16 21:55:16.777 - INFO: 
+Overall Spurious Accuracy: 61.25%
+INFO:train:
+Overall Spurious Accuracy: 61.25%
+25-03-16 21:55:16.777 - INFO: 
+Group (0, 0):
+INFO:train:
+Group (0, 0):
+25-03-16 21:55:16.777 - INFO:   - Group Accuracy: 0.00%
+INFO:train:  - Group Accuracy: 0.00%
+25-03-16 21:55:16.777 - INFO:   - Correctly Predicted Samples: 0/20
+INFO:train:  - Correctly Predicted Samples: 0/20
+25-03-16 21:55:16.777 - INFO: 
+Group (1, 1):
+INFO:train:
+Group (1, 1):
+25-03-16 21:55:16.777 - INFO:   - Group Accuracy: 0.00%
+INFO:train:  - Group Accuracy: 0.00%
+25-03-16 21:55:16.777 - INFO:   - Correctly Predicted Samples: 0/20
+INFO:train:  - Correctly Predicted Samples: 0/20
+25-03-16 21:55:16.777 - INFO: 
+Group (0, 1):
+INFO:train:
+Group (0, 1):
+25-03-16 21:55:16.778 - INFO:   - Group Accuracy: 55.00%
+INFO:train:  - Group Accuracy: 55.00%
+25-03-16 21:55:16.778 - INFO:   - Correctly Predicted Samples: 11/20
+INFO:train:  - Correctly Predicted Samples: 11/20
+25-03-16 21:55:16.778 - INFO: 
+Group (1, 0):
+INFO:train:
+Group (1, 0):
+25-03-16 21:55:16.778 - INFO:   - Group Accuracy: 95.00%
+INFO:train:  - Group Accuracy: 95.00%
+25-03-16 21:55:16.778 - INFO:   - Correctly Predicted Samples: 19/20
+INFO:train:  - Correctly Predicted Samples: 19/20
+25-03-16 21:55:16.909 - INFO: Top-30 Samples Per Group #########
+INFO:train:Top-30 Samples Per Group #########
+25-03-16 21:55:16.909 - INFO: Target Accuracy from Report: 0.65%
+INFO:train:Target Accuracy from Report: 0.65%
+25-03-16 21:55:16.909 - INFO: Sensitive Accuracy from Report: 0.60%
+INFO:train:Sensitive Accuracy from Report: 0.60%
+25-03-16 21:55:16.909 - INFO: 
+
+INFO:train:
+
+25-03-16 21:55:16.910 - INFO: Target AUC from Report: 0.70
+INFO:train:Target AUC from Report: 0.70
+25-03-16 21:55:16.910 - INFO: Sensitive AUC from Report: 0.76
+INFO:train:Sensitive AUC from Report: 0.76
+25-03-16 21:55:16.910 - INFO: 
+
+INFO:train:
+
+25-03-16 21:55:16.910 - INFO: Target ECE from Report: 0.34
+INFO:train:Target ECE from Report: 0.34
+25-03-16 21:55:16.910 - INFO: Sensitive ECE from Report: 0.36
+INFO:train:Sensitive ECE from Report: 0.36
+25-03-16 21:55:16.910 - INFO: 
+
+INFO:train:
+
+25-03-16 21:55:16.910 - INFO: 
+Overall Class Accuracy: 65.00%
+INFO:train:
+Overall Class Accuracy: 65.00%
+25-03-16 21:55:16.910 - INFO: 
+Overall Spurious Accuracy: 60.00%
+INFO:train:
+Overall Spurious Accuracy: 60.00%
+25-03-16 21:55:16.910 - INFO: 
+Group (0, 0):
+INFO:train:
+Group (0, 0):
+25-03-16 21:55:16.910 - INFO:   - Group Accuracy: 0.00%
+INFO:train:  - Group Accuracy: 0.00%
+25-03-16 21:55:16.910 - INFO:   - Correctly Predicted Samples: 0/30
+INFO:train:  - Correctly Predicted Samples: 0/30
+25-03-16 21:55:16.910 - INFO: 
+Group (1, 1):
+INFO:train:
+Group (1, 1):
+25-03-16 21:55:16.910 - INFO:   - Group Accuracy: 0.00%
+INFO:train:  - Group Accuracy: 0.00%
+25-03-16 21:55:16.910 - INFO:   - Correctly Predicted Samples: 0/30
+INFO:train:  - Correctly Predicted Samples: 0/30
+25-03-16 21:55:16.910 - INFO: 
+Group (0, 1):
+INFO:train:
+Group (0, 1):
+25-03-16 21:55:16.910 - INFO:   - Group Accuracy: 53.33%
+INFO:train:  - Group Accuracy: 53.33%
+25-03-16 21:55:16.910 - INFO:   - Correctly Predicted Samples: 16/30
+INFO:train:  - Correctly Predicted Samples: 16/30
+25-03-16 21:55:16.910 - INFO: 
+Group (1, 0):
+INFO:train:
+Group (1, 0):
+25-03-16 21:55:16.910 - INFO:   - Group Accuracy: 96.67%
+INFO:train:  - Group Accuracy: 96.67%
+25-03-16 21:55:16.910 - INFO:   - Correctly Predicted Samples: 29/30
+INFO:train:  - Correctly Predicted Samples: 29/30
+25-03-16 21:55:17.043 - INFO: Top-40 Samples Per Group #########
+INFO:train:Top-40 Samples Per Group #########
+25-03-16 21:55:17.043 - INFO: Target Accuracy from Report: 0.62%
+INFO:train:Target Accuracy from Report: 0.62%
+25-03-16 21:55:17.043 - INFO: Sensitive Accuracy from Report: 0.59%
+INFO:train:Sensitive Accuracy from Report: 0.59%
+25-03-16 21:55:17.043 - INFO: 
+
+INFO:train:
+
+25-03-16 21:55:17.043 - INFO: Target AUC from Report: 0.64
+INFO:train:Target AUC from Report: 0.64
+25-03-16 21:55:17.043 - INFO: Sensitive AUC from Report: 0.76
+INFO:train:Sensitive AUC from Report: 0.76
+25-03-16 21:55:17.043 - INFO: 
+
+INFO:train:
+
+25-03-16 21:55:17.043 - INFO: Target ECE from Report: 0.38
+INFO:train:Target ECE from Report: 0.38
+25-03-16 21:55:17.043 - INFO: Sensitive ECE from Report: 0.36
+INFO:train:Sensitive ECE from Report: 0.36
+25-03-16 21:55:17.043 - INFO: 
+
+INFO:train:
+
+25-03-16 21:55:17.044 - INFO: 
+Overall Class Accuracy: 61.88%
+INFO:train:
+Overall Class Accuracy: 61.88%
+25-03-16 21:55:17.044 - INFO: 
+Overall Spurious Accuracy: 59.38%
+INFO:train:
+Overall Spurious Accuracy: 59.38%
+25-03-16 21:55:17.044 - INFO: 
+Group (0, 0):
+INFO:train:
+Group (0, 0):
+25-03-16 21:55:17.044 - INFO:   - Group Accuracy: 0.00%
+INFO:train:  - Group Accuracy: 0.00%
+25-03-16 21:55:17.044 - INFO:   - Correctly Predicted Samples: 0/40
+INFO:train:  - Correctly Predicted Samples: 0/40
+25-03-16 21:55:17.044 - INFO: 
+Group (1, 1):
+INFO:train:
+Group (1, 1):
+25-03-16 21:55:17.044 - INFO:   - Group Accuracy: 0.00%
+INFO:train:  - Group Accuracy: 0.00%
+25-03-16 21:55:17.044 - INFO:   - Correctly Predicted Samples: 0/40
+INFO:train:  - Correctly Predicted Samples: 0/40
+25-03-16 21:55:17.044 - INFO: 
+Group (0, 1):
+INFO:train:
+Group (0, 1):
+25-03-16 21:55:17.044 - INFO:   - Group Accuracy: 47.50%
+INFO:train:  - Group Accuracy: 47.50%
+25-03-16 21:55:17.044 - INFO:   - Correctly Predicted Samples: 19/40
+INFO:train:  - Correctly Predicted Samples: 19/40
+25-03-16 21:55:17.044 - INFO: 
+Group (1, 0):
+INFO:train:
+Group (1, 0):
+25-03-16 21:55:17.044 - INFO:   - Group Accuracy: 97.50%
+INFO:train:  - Group Accuracy: 97.50%
+25-03-16 21:55:17.044 - INFO:   - Correctly Predicted Samples: 39/40
+INFO:train:  - Correctly Predicted Samples: 39/40
+25-03-16 21:55:17.172 - INFO: Top-50 Samples Per Group #########
+INFO:train:Top-50 Samples Per Group #########
+25-03-16 21:55:17.172 - INFO: Target Accuracy from Report: 0.61%
+INFO:train:Target Accuracy from Report: 0.61%
+25-03-16 21:55:17.172 - INFO: Sensitive Accuracy from Report: 0.58%
+INFO:train:Sensitive Accuracy from Report: 0.58%
+25-03-16 21:55:17.172 - INFO: 
+
+INFO:train:
+
+25-03-16 21:55:17.172 - INFO: Target AUC from Report: 0.61
+INFO:train:Target AUC from Report: 0.61
+25-03-16 21:55:17.172 - INFO: Sensitive AUC from Report: 0.74
+INFO:train:Sensitive AUC from Report: 0.74
+25-03-16 21:55:17.172 - INFO: 
+
+INFO:train:
+
+25-03-16 21:55:17.172 - INFO: Target ECE from Report: 0.38
+INFO:train:Target ECE from Report: 0.38
+25-03-16 21:55:17.172 - INFO: Sensitive ECE from Report: 0.37
+INFO:train:Sensitive ECE from Report: 0.37
+25-03-16 21:55:17.172 - INFO: 
+
+INFO:train:
+
+25-03-16 21:55:17.172 - INFO: 
+Overall Class Accuracy: 61.50%
+INFO:train:
+Overall Class Accuracy: 61.50%
+25-03-16 21:55:17.172 - INFO: 
+Overall Spurious Accuracy: 58.50%
+INFO:train:
+Overall Spurious Accuracy: 58.50%
+25-03-16 21:55:17.172 - INFO: 
+Group (0, 0):
+INFO:train:
+Group (0, 0):
+25-03-16 21:55:17.172 - INFO:   - Group Accuracy: 0.00%
+INFO:train:  - Group Accuracy: 0.00%
+25-03-16 21:55:17.172 - INFO:   - Correctly Predicted Samples: 0/50
+INFO:train:  - Correctly Predicted Samples: 0/50
+25-03-16 21:55:17.173 - INFO: 
+Group (1, 1):
+INFO:train:
+Group (1, 1):
+25-03-16 21:55:17.173 - INFO:   - Group Accuracy: 0.00%
+INFO:train:  - Group Accuracy: 0.00%
+25-03-16 21:55:17.173 - INFO:   - Correctly Predicted Samples: 0/50
+INFO:train:  - Correctly Predicted Samples: 0/50
+25-03-16 21:55:17.173 - INFO: 
+Group (0, 1):
+INFO:train:
+Group (0, 1):
+25-03-16 21:55:17.173 - INFO:   - Group Accuracy: 44.00%
+INFO:train:  - Group Accuracy: 44.00%
+25-03-16 21:55:17.173 - INFO:   - Correctly Predicted Samples: 22/50
+INFO:train:  - Correctly Predicted Samples: 22/50
+25-03-16 21:55:17.173 - INFO: 
+Group (1, 0):
+INFO:train:
+Group (1, 0):
+25-03-16 21:55:17.173 - INFO:   - Group Accuracy: 98.00%
+INFO:train:  - Group Accuracy: 98.00%
+25-03-16 21:55:17.173 - INFO:   - Correctly Predicted Samples: 49/50
+INFO:train:  - Correctly Predicted Samples: 49/50

@@ -5,5 +5,8 @@
     "image_train_path": "/media/SSD2/Dataset/HAM10000/HAM10000_images",
     "image_test_path" : "/media/SSD2/Dataset/HAM10000/HAM10000_images",
     "text_template": "a photo of a {}",
-    "class_names": ["benign lesion", "malignant lesion"]
+    "att_template": "a lesion of a {}",
+    "class_names": ["benign lesion", "malignant lesion"],
+    "attribute_names": ["male", "female"]
+
 }

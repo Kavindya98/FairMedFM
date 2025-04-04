@@ -14,7 +14,7 @@ class FairVLMed10k(BaseDataset):
     def set_sensitive(self):
         if self.sens_name == "Sex":
             # female: 1, male: 0
-            sa_array = np.asarray(self.dataframe["gender"].values != "M").astype(np.float32)
+            sa_array = np.asarray(self.dataframe["gender"].values != "male").astype(np.float32)
             class_0_count = np.sum(sa_array == 0)
             class_1_count = np.sum(sa_array == 1)
             total_count_sa = len(sa_array)
@@ -51,7 +51,7 @@ class FairVLMed10k(BaseDataset):
             img = Image.fromarray(self.tol_images[idx])
         else:
             img = Image.open(os.path.join(self.path_to_images, f"{item['path']}")).convert("RGB")
-
+        
         if self.transform is not None:
             img = self.transform(img)
 

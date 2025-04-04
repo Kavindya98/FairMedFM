@@ -13,11 +13,11 @@ def collect_args():
         "--usage",
         type=str,
         default='clip-zs',
-        choices=["lp", "clip-zs", "clip-adapt", "seg2d-rand",
+        choices=["lp", "clip-zs", "clip-adapt", "unsup-clip-zs", "seg2d-rand",
                  "seg2d-rands", "seg2d-center", "seg2d-bbox", "seg2d"],
     )
     parser.add_argument("--method", default="erm",
-                        choices=["erm", "resampling", "group-dro", "laftr"])
+                        choices=["erm","unsup", "resampling", "group-dro", "laftr"])
     parser.add_argument(
         "--dataset",
         default="CXP",

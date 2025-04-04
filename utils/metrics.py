@@ -6,6 +6,7 @@ import torch
 import torch.nn as nn
 from sklearn.metrics import accuracy_score, confusion_matrix, roc_auc_score
 import wandb 
+from sklearn.metrics import roc_curve
 
 
 # adapted from https://github.com/LalehSeyyed/Underdiagnosis_NatMed/blob/main/CXP/classification/predictions.py
@@ -21,6 +22,16 @@ def find_threshold(tol_output, tol_target):
     bestthr = t[np.where(f1 == max(f1))]
 
     return bestthr[0]
+
+
+
+def find_best_threshold_youden(tol_output, tol_target):
+    fpr, tpr, thresholds = roc_curve(tol_target, tol_output)
+    youden_j = tpr - fpr  # Compute Youden’s J statistic
+    best_threshold = thresholds[np.argmax(youden_j)]  # Get threshold with max J
+
+    return best_threshold
+
 
 
 def bce_loss(pred_probs, labels):
@@ -125,7 +136,9 @@ def evaluate_binary(pred, Y, A):
                     subgroup_metrics[k] = []
 
                 subgroup_metrics[k].append(v)
-
+    print("Overall metrics")
+    print(overall_metrics)
+    
     return overall_metrics, subgroup_metrics
 
 
@@ -149,6 +162,7 @@ def organize_results(overall_metrics, subgroup_metrics):
         "ece-gap": max(subgroup_ece) - min(subgroup_ece),
         "eod": 1 - ((max(subgroup_tpr) - min(subgroup_tpr)) + (max(subgroup_tnr) - min(subgroup_tnr))) / 2,
         "eo": max(subgroup_tpr) - min(subgroup_tpr),
+        "auc-es": overall_metrics["auc"] / (1 + np.std(subgroup_auc)),
     }
 
     return result

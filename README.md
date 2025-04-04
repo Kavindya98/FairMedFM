@@ -140,8 +140,11 @@ We offer some examples of how to use our package through the notebook.
 We provide an example of running a linear-probe (classification) experiment of the CLIP model on the MIMIC-CXR dataset to evaluate fairness on sex. Please refer to [parse_args.py](./parse_args.py) for more details.
 
 ```bash
-CUDA_VISIBLE_DEVICES=1 python main.py --task cls --usage lp --dataset CXP --sensitive_name Sex --method erm --total_epochs 100 --warmup_epochs 5 --blr 2.5e-4 --batch_size 128 --optimizer adamw --min_lr 1e-5 --weight_decay 0.05
+CUDA_VISIBLE_DEVICES=0 python main.py --task cls --usage lp --dataset PAPILA --sensitive_name Sex --method erm --total_epochs 100 --warmup_epochs 5 --blr 2.5e-1 --batch_size 128 --optimizer adamw --min_lr 1e-2 --weight_decay 0.05
 ```
+CUDA_VISIBLE_DEVICES=0 python main.py --task cls --usage unsup-clip-zs --dataset PAPILA --sensitive_name Sex --method unsup --total_epochs 100 --warmup_epochs 5 --blr 2.5e-1 --batch_size 128 --optimizer adamw --min_lr 1e-2 --weight_decay 0.05
+
+CUDA_VISIBLE_DEVICES=0 python main.py --task unsupcls --method unsup --usage unsup-clip-zs --dataset PAPILA --sensitive_name Sex --model CLIP
 
 ### Segmentation (2D SAMs)
 

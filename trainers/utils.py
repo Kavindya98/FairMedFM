@@ -7,6 +7,9 @@ def get_trainer(args, model, logger, test_dataloader=None):
         if args.method == "erm":
             from trainers import CLSTrainer
             return CLSTrainer(args, model, test_dataloader, logger)
+        elif args.method == "unsup":
+            from trainers import UnSupCLSTrainer
+            return UnSupCLSTrainer(args, model, test_dataloader, logger)
         elif args.method == "sa":
             from trainers import SATrainer
             return SATrainer(args, model, test_dataloader, logger)

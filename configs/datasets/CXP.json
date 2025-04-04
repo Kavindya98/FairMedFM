@@ -6,5 +6,7 @@
     "image_train_path": "/media/SSD2/Dataset/CheXpert",
     "image_test_path": "/media/SSD2/Dataset/CheXpert",
     "text_template": "a chest X-ray of a {}",
-    "class_names": ["diseased", "normal"]
+    "att_template": "a chest X-ray of a {}",
+    "class_names": ["diseased" ,"normal"],
+    "attribute_names": ["male", "female"]
 }

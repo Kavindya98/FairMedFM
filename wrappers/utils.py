@@ -18,10 +18,28 @@ def get_warpped_model(args, model, data_engine=None):
             assert args.model in CLIP_MODELS, f"{args.usage} is not applicable for {args.model}"
             from wrappers import CLIPWrapper
 
-            text = tokenize_text(args, args.data_setting["class_names"])
-            text_features = model.encode_text(text.to(args.device))
+            
+            text = tokenize_text(args, args.data_setting["class_names"], args.data_setting["text_template"])
+            if args.model in ["BLIP", "BLIP2"]:
+                text_features = model.encode_text(text)
+            else:
+                text_features = model.encode_text(text.to(args.device))
 
             model_warpped = CLIPWrapper(model, text_features)
+        elif args.usage in ["unsup-clip-zs", "unsup-clip-adapt"]:
+            assert args.model in CLIP_MODELS, f"{args.usage} is not applicable for {args.model}"
+            from wrappers import UnSupCLIPWrapper
+
+            cls_text = tokenize_text(args, args.data_setting["class_names"], args.data_setting["text_template"])
+            att_text = tokenize_text(args, args.data_setting["attribute_names"], args.data_setting["att_template"])
+            if args.model in ["BLIP", "BLIP2"]:
+                cls_text_features = model.encode_text(cls_text)
+                att_text_features = model.encode_text(att_text)
+            else:
+                cls_text_features = model.encode_text(cls_text.to(args.device))
+                att_text_features = model.encode_text(att_text.to(args.device))
+
+            model_warpped = UnSupCLIPWrapper(model, cls_text_features, att_text_features)
         elif args.usage == "lora":
             from wrappers import LoRAWrapper
 

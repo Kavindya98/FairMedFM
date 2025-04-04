@@ -7,6 +7,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from icecream import ic
+from itertools import chain
 
 import parse_args
 from datasets.utils import get_dataset, get_train_dataset
@@ -65,7 +66,7 @@ if __name__ == "__main__":
     args = create_exerpiment_setting(args)
 
     logger = basics.setup_logger(
-        "train", args.save_folder, "history.log", screen=True, tofile=True)
+        "train", args.save_folder, "no_oracle_n_pseudo_label_per_group_confidence_cls_spu", screen=True, tofile=True) # history.log oracle_pseudo_labels 0.5_n_pseudo_label_per_group_confidence_cls
     logger.info("Using following arguments for training.")
     logger.info(args)
 
@@ -86,10 +87,11 @@ if __name__ == "__main__":
     # ic(train_data, train_dataloader, train_meta)
     # ic(test_data, test_dataloader, test_meta)
     # ic(model)
-    wandb_project = "_".join([args.dataset, args.model])
-    wandb_name = "_".join([args.task, args.usage,args.method, f"sa{args.sensitive_name}", f"seed{args.random_seed}", f"bsize{args.batch_size}", f"lr{args.lr}", f"opt{args.optimizer}", f"min_lr{args.min_lr}", f"fix_lr{args.fixed_lr}",f"wd{args.weight_decay}",f"warm{args.warmup_epochs}",f"total{args.total_epochs}",f"cls_bal{args.cls_balance}"]) 
+    if args.if_wandb:
+        wandb_project = "_".join([args.dataset, args.model])
+        wandb_name = "_".join([args.task, args.usage,args.method, f"sa{args.sensitive_name}", f"seed{args.random_seed}", f"bsize{args.batch_size}", f"lr{args.lr}", f"opt{args.optimizer}", f"min_lr{args.min_lr}", f"fix_lr{args.fixed_lr}",f"wd{args.weight_decay}",f"warm{args.warmup_epochs}",f"total{args.total_epochs}",f"cls_bal{args.cls_balance}"]) 
 
-    wandb.init(project=wandb_project, name=wandb_name, config=args)
+        wandb.init(project=wandb_project, name=wandb_name, config=args)
 
     if args.task == "cls":
         model = get_warpped_model(args, model).to(args.device)
@@ -101,9 +103,23 @@ if __name__ == "__main__":
 
     if args.usage == "clip-zs":
         logger.info("CLIP Zero-shot performance:")
-        trainer.evaluate(test_dataloader, save_path=os.path.join(
+        # trainer.evaluate(test_dataloader, save_path=os.path.join(
+        #     args.save_folder, "clip_zs_final"))
+        combined_dataloader = chain(train_dataloader, val_dataloader)
+        trainer.evaluate(combined_dataloader, save_path=os.path.join(
             args.save_folder, "clip_zs_final"))
+
         exit(0)
+    
+    elif args.usage == "unsup-clip-zs":
+        logger.info("Unsupervised CLIP Zero-shot performance:")
+        combined_dataloader = chain(train_dataloader, val_dataloader)
+        #trainer.pseudo_label_generation(combined_dataloader, print_predictions=True)
+        #trainer.best_accuracies_after_tuning(combined_dataloader)
+        trainer.n_pseudo_label_per_group_generation(combined_dataloader)
+        #trainer.best_n_pseudo_label_per_group_generation(combined_dataloader)
+        # trainer.evaluate(test_dataloader, save_path=os.path.join(
+        #     args.save_folder, "clip_zs_final"))
 
     elif args.usage == "clip-adapt":
         logger.info("CLIP-Adaptor performance:")

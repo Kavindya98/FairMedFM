@@ -20,6 +20,7 @@ class CLIP(nn.Module):
         logits = 100.0 * image_features @ text_features.T
 
         return logits
+   
 
     def encode_text(self, text):
         return self.model.encode_text(text.to(next(self.model.parameters()).device))

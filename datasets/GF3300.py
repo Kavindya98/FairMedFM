@@ -14,7 +14,7 @@ class GF3300(BaseDataset):
     def set_sensitive(self):
         if self.sens_name == "Sex":
             # female: 1, male: 0
-            sa_array = np.asarray(self.dataframe["gender"].values != "M").astype(np.float32)
+            sa_array = np.asarray(self.dataframe["gender"].values != "male").astype(np.float32)
             class_0_count = np.sum(sa_array == 0)
             class_1_count = np.sum(sa_array == 1)
             total_count_sa = len(sa_array)
@@ -54,6 +54,7 @@ class GF3300(BaseDataset):
             img = (img - (-2)) / (350 - (-2)) * 255
             img = Image.fromarray(img.astype(np.uint8)).convert("RGB")
 
+        
         if self.transform is not None:
             img = self.transform(img)
 

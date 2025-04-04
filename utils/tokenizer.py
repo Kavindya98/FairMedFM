@@ -3,8 +3,8 @@ from transformers import AutoTokenizer
 from open_clip import get_tokenizer
 
 
-def tokenize_text(args, class_names):
-    template = args.data_setting["text_template"]
+def tokenize_text(args, class_names, template):
+    
 
     texts = [template.format(class_name.strip()) for class_name in class_names]
 

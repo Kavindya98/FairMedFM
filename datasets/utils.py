@@ -46,7 +46,7 @@ def get_transform(args, split, augment=False):
         mean = [0.5056, 0.5056, 0.5056]
         std = [0.252, 0.252, 0.252]
     elif args.dataset == "GF3300":
-        mean = [0.2756, 0.2756, 0.2756],
+        mean = [0.2756, 0.2756, 0.2756]
         std = [0.1708, 0.1708, 0.1708]
     else:
         mean = [0.48145466, 0.4578275, 0.40821073]
